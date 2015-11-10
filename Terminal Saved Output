@@ -1,0 +1,49 @@
+Last login: Tue Nov 10 09:47:35 on console
+dhcp-10-5-0-164:~ Alex$ cd desktop
+dhcp-10-5-0-164:desktop Alex$ git clone https://github.com/zchen364/CRUDList.git
+fatal: destination path 'CRUDList' already exists and is not an empty directory.
+dhcp-10-5-0-164:desktop Alex$ git clone https://github.com/zchen364/CRUDList.git
+Cloning into 'CRUDList'...
+remote: Counting objects: 38, done.
+remote: Total 38 (delta 0), reused 0 (delta 0), pack-reused 37
+Unpacking objects: 100% (38/38), done.
+Checking connectivity... done.
+dhcp-10-5-0-164:desktop Alex$ git add .
+fatal: Not a git repository (or any of the parent directories): .git
+dhcp-10-5-0-164:desktop Alex$ git add .
+fatal: Not a git repository (or any of the parent directories): .git
+dhcp-10-5-0-164:desktop Alex$ cd CRUDList
+dhcp-10-5-0-164:CRUDList Alex$ git add.
+error: key does not contain variable name: pager.add.
+error: key does not contain variable name: alias.add.
+git: 'add.' is not a git command. See 'git --help'.
+
+Did you mean this?
+	add
+dhcp-10-5-0-164:CRUDList Alex$ git add .
+dhcp-10-5-0-164:CRUDList Alex$ git commit
+
+Adding in Milestone 2 final
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Committer: Thealexmai <Alex@dhcp-10-5-0-164.wireless.rochester.edu>
+#
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#       new file:   cgi-bin/accounts.db
+#       new file:   cgi-bin/createdatabase.py
+#       new file:   cgi-bin/insert.py
+#       new file:   cgi-bin/login.py
+#       new file:   css/bootstrap-theme.css
+#       new file:   css/bootstrap-theme.css.map
+#       new file:   css/bootstrap-theme.min.css
+#       new file:   css/bootstrap.css
+#       new file:   css/bootstrap.css.map
+#       new file:   css/bootstrap.min.css
+#       new file:   js/bootstrap.js
+#       new file:   js/bootstrap.min.js
+-- INSERT --
