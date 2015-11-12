@@ -8,25 +8,24 @@ c=conn.cursor()
 
 import Cookie
 import os
-import json
 
 stored_cookie_string = os.environ.get('HTTP_COOKIE')
-cookie = Cookie.SimpleCookie(stored_cookie_string)
-
-data = {}
 
 print "Content-Type: text/html"
 print
+
+import json
+data = {}
 
 # If no cookies
 if not stored_cookie_string:
 	data['hasCookie']="False"
 	data['match']="False"
 	# print json.dumps(data)
+
 else:
-	# load() parses the cookie string
-	cookie.load(stored_cookie_string)
-	my_emails = cookie['email'].value
+	cookie = Cookie.SimpleCookie(stored_cookie_string)
+	my_emails = cookie["email"].value
 	for r in c.execute('select * from users where email=?;', [my_emails]):
 		checkEmail = r[0]
 		if(checkEmail == my_emails):
@@ -39,6 +38,7 @@ else:
 			data['hasCookie']="True"
 			data['match']="False"
 			# print json.dumps(data)
+
 print json.dumps(data)
 
 conn.close()

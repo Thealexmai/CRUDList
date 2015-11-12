@@ -4,27 +4,44 @@
 <meta charset="utf-8">
 <title>CRUDList</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Defensive coding in case bootstrap server is down -->
-<link rel="stylesheet" href="css/bootstrap-theme.css">
-<link rel="stylesheet" href="css/boostrap-theme.min.css">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-<script src="js/boostrap.js"></script>
-<script src="js/boostrap.min.js"></script>
-
 <!-- Get from online -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Defensive coding in case bootstrap server is down -->
+<link rel="stylesheet" href="css/bootstrap-theme.css">
+<link rel="stylesheet" href="css/boostrap-theme.min.css">
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script src="js/boostrap.js"></script>
+<script src="js/boostrap.min.js"></script>
 
 <!-- Run Javascript -->
 <script type="text/javascript">
-	//function that logs you in
 	$(document).ready(function() {
+		//Check to see if there is a cookie
+		$.ajax({
+			url: "/cgi-bin/validateCookie.py",
+			type: "GET",
+			dataType: "JSON",
+
+			success: function(data) {
+				console.log(data.hasCookie);
+				console.log(data.match);
+				alert("You've got cookie stuff!" + JSON.stringify(data));
+			},
+			error: function() {
+				console.log(data.hasCookie);
+				alert("Omg u no work");
+			},
+		});
+
+
+		// Log in button
 		$("#loginsubmit").click(function() {
 			var emailToLookup = $("#loginemail").val();
 			var passwordToLookup = $("#loginpassword").val();
@@ -42,7 +59,7 @@
 					//Hide the registration material
 					$(".form-group").hide();
 					// Create a cookie if successfully logged in
-					setCookie(data.email, data.firstname, 7);
+					setCookie(data.email, 7);
 					
 					$("#loggedname").html(
 							"Welcome Back " + data.firstname
@@ -54,16 +71,16 @@
 				},
 			});
 		});
-	});
+	}); //End of document ready
 </script>
 
 <script type="text/javascript">
 	// Function that sets the cookie
-	function setCookie(key, value, expdays) {
+	function setCookie(value, expdays) {
 		var d = new Date();
 		d.setTime(d.getTime() + (expdays*24*60*60*1000));
 		var expires = "expires="+d.toUTCString();
-		document.cookie = key + "=" + value + ";" + expires;
+		document.cookie = "email=" + value + ";" + expires;
 	}
 </script>
 </head>
