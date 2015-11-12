@@ -27,15 +27,14 @@
 		$.ajax({
 			url: "/cgi-bin/validateCookie.py",
 			type: "GET",
-			dataType: "JSON",
+			dataType: "json",
 
 			success: function(data) {
-				console.log(data.hasCookie);
-				console.log(data.match);
-				alert("You've got cookie stuff!" + JSON.stringify(data));
+				console.log(data);
+				// alert("You've got cookie stuff!" + JSON.stringify(data));
 			},
 			error: function() {
-				console.log(data.hasCookie);
+				console.log("Error: " + data.hasCookie);
 				alert("Omg u no work");
 			},
 		});
