@@ -1,87 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>CRUDList</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Get from online -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>CRUDList</title>
+	<!-- Get from online -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script
+		src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<link rel="stylesheet"
+		href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-<!-- Defensive coding in case bootstrap server is down -->
-<link rel="stylesheet" href="css/bootstrap-theme.css">
-<link rel="stylesheet" href="css/boostrap-theme.min.css">
-<link rel="stylesheet" href="css/bootstrap.css">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<script src="js/boostrap.js"></script>
-<script src="js/boostrap.min.js"></script>
+	<!-- Defensive coding in case bootstrap server is down -->
+	<link rel="stylesheet" href="css/bootstrap-theme.css">
+	<link rel="stylesheet" href="css/boostrap-theme.min.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="js/boostrap.js"></script>
+	<script src="js/boostrap.min.js"></script>
 
-<!-- Run Javascript -->
-<script type="text/javascript">
-	$(document).ready(function() {
-		//Check to see if there is a cookie
-		$.ajax({
-			url: "/cgi-bin/validateCookie.py",
-			type: "GET",
-			dataType: "json",
+	<!-- Run Javascript connecting to server-->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".form-group").hide();
+			$("#loggedin").hide();
+			$("#settings").hide();
 
-			success: function(data) {
-				console.log(data);
-				// alert("You've got cookie stuff!" + JSON.stringify(data));
-			},
-			error: function() {
-				console.log("Error: " + data.hasCookie);
-				alert("Omg u no work");
-			},
-		});
-
-
-		// Log in button
-		$("#loginsubmit").click(function() {
-			var emailToLookup = $("#loginemail").val();
-			var passwordToLookup = $("#loginpassword").val();
-			// console.log(emailToLookup);
+			//Check to see if there is a cookie
 			$.ajax({
-				url : "/cgi-bin/login.py",
-				data : {
-					loginemail : emailToLookup,
-					loginpassword : passwordToLookup
-				},
-				type : "POST",
-				dataType : "json",
-				success : function(data) {
+				url: "/cgi-bin/validateCookie.py",
+				type: "GET",
+				dataType: "json",
+				success: function(data) {
 					console.log(data);
-					//Hide the registration material
-					$(".form-group").hide();
-					// Create a cookie if successfully logged in
-					setCookie(data.email, 7);
-					
-					$("#loggedname").html(
-							"Welcome Back " + data.firstname
-									+ " " + data.lastname);
+					if(data.hasCookie==true && data.match==true) {
+						$("#loggedin").show();
+						$("#welcomename").append(data.firstname + " " + data.lastname);
+					}
+					else {
+						$(".form-group").show();
+					}
+					// alert("You've got cookie stuff!" + JSON.stringify(data));
 				},
-				// Code to run if the request fails
-				error : function() {
-					alert("Sorry, there was a problem!");
+				error: function() {
+					console.log("Error: " + JSON.stringify(data));
 				},
 			});
-		});
-	}); //End of document ready
-</script>
 
-<script type="text/javascript">
-	// Function that sets the cookie
-	function setCookie(value, expdays) {
-		var d = new Date();
-		d.setTime(d.getTime() + (expdays*24*60*60*1000));
-		var expires = "expires="+d.toUTCString();
-		document.cookie = "email=" + value + ";" + expires;
-	}
-</script>
+
+			// Log in button
+			$("#loginsubmit").click(function() {
+				var emailToLookup = $("#loginemail").val();
+				var passwordToLookup = $("#loginpassword").val();
+				// console.log(emailToLookup);
+				$.ajax({
+					url : "/cgi-bin/login.py",
+					data : {
+						loginemail : emailToLookup,
+						loginpassword : passwordToLookup
+					},
+					type : "POST",
+					dataType : "json",
+					success : function(data) {
+						console.log(data);
+						//Hide the registration material
+						$(".form-group").hide();
+						// Create a cookie if successfully logged in - expires in 7 days
+						setCookie(data.email, 7);
+						
+						$("#loggedin").show();
+						$("#welcomename").append(data.firstname + " " + data.lastname);
+					},
+					// Code to run if the request fails
+					error : function() {
+						alert("Sorry, there was a problem!");
+					},
+				});
+			});
+		}); //End of document ready
+	</script>
+
+	<script type="text/javascript">
+		// Function that sets the cookie
+		function setCookie(value, expdays) {
+			var d = new Date();
+			d.setTime(d.getTime() + (expdays*24*60*60*1000));
+			var expires = "expires="+d.toUTCString();
+			document.cookie = "email=" + value + ";" + expires;
+		}
+	</script>
 </head>
 
 <body>
@@ -90,62 +98,53 @@
 			<h1>CRUDList</h1>
 		</header>
 
-		<!-- I am a: -->
-		<!-- 	<ul class="nav nav-tabs">
-		<li class="active"><a data-toggle="tab" href="#register">Register</a></li>
-		 <li><a data-toggle="tab" href="#login">Login</a></li>
-	</ul>  -->
-
 		<!-- For the buyer -->
-		<div>
-			<!-- Buyer's submission -->
-			<form action="cgi-bin/insert.py">
-				<div class="form-group">
-					<label for="name">First Name</label> <input type="text"
-						id="firstname" name="firstname" class="form-control"
-						placeholder="First name">
-				</div>
-				<div class="form-group">
-					<label for="name">Last Name</label> <input type="text"
-						id="lastname" name="lastname" class="form-control"
-						placeholder="Last name">
-				</div>
-				<div class="form-group">
-					<label for="email">Email address</label> <input type="email"
-						name="email" id="email" class="form-control"
-						placeholder="@u.rochester.edu">
-				</div>
-				<div class="form-group">
-					<label for="password">Password</label> <input type="password"
-						name="password" id="password" class="form-control"
-						placeholder="Password">
-				</div>
-				<div class="form-group">
-					<label for="services">Services</label> <input type="text"
-						name="services" id="services" class="form-control"
-						placeholder="List services">
-				</div>
-				<div class="form-group">
-					<label for="description">Tell me about yourself</label>
-					<textarea id="description" name="description" class="form-control"
-						rows="5" placeholder="Describe what you're looking for"></textarea>
-				</div>
-				<button type="submit" id="submit" name="submit"
-					class="btn btn-default form-group">Submit</button>
-			</form>
-
-			<!-- Button for register -->
-		</div>
-		<!-- end of register tab-->
+		<h2 class="form-group">Register</h2>
+		<form method ="post" action="cgi-bin/insert.py">
+			<div class="form-group">
+				<label for="firstname">First Name</label> <input type="text"
+					id="firstname" name="firstname" class="form-control"
+					placeholder="First name">
+			</div>
+			<div class="form-group">
+				<label for="lastname">Last Name</label> <input type="text"
+					id="lastname" name="lastname" class="form-control"
+					placeholder="Last name">
+			</div>
+			<div class="form-group">
+				<label for="email">Email address</label> <input type="email"
+					name="email" id="email" class="form-control"
+					placeholder="@u.rochester.edu">
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label> <input type="password"
+					name="password" id="password" class="form-control"
+					placeholder="Password">
+			</div>
+			<div class="form-group">
+				<label for="services">Services</label> <input type="text"
+					name="services" id="services" class="form-control"
+					placeholder="List services">
+			</div>
+			<div class="form-group">
+				<label for="description">Tell me about yourself</label>
+				<textarea id="description" name="description" class="form-control"
+					rows="5" placeholder="Describe what you're looking for"></textarea>
+			</div>
+			<button type="submit" id="submit" name="submit"
+				class="btn btn-default form-group">Submit</button>
+		</form>
+		<!-- end of register-->
 
 		<!-- For the log in -->
+		<h2 class="form-group">Log in</h2>
 		<div class="form-group">
 			<label for="loginemail">Email</label> <input type="text"
 				id="loginemail" name="loginemail" class="form-control"
 				placeholder="@u.rochester.edu">
 		</div>
 		<div class="form-group">
-			<label for="loginpassword">Password</label> <input type="text"
+			<label for="loginpassword">Password</label> <input type="password"
 				id="loginpassword" name="loginpassword" class="form-control"
 				placeholder="Password">
 		</div>
@@ -154,8 +153,11 @@
 		<!-- End of login -->
 
 		<!-- Empy placeholders for succesful log in -->
-		<div id="loggedname"></div>
-
+		<div id="loggedin">
+			<div id="welcomename">Welcome Back</div>
+			<!-- Click on settings link and will take you to settings page -->
+			<center><a class="btn btn-default" id="settingsbutton" href="/settings.html">Settings</a></center>
+		</div>
 
 	</div>
 	<!-- End of container -->

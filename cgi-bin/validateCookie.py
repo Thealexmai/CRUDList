@@ -26,10 +26,18 @@ else:
 
 	for r in c.execute('select * from users where email=?;', [my_emails]):
 	    checkEmail = r[0]
+	    firstname = r[1]
+	    lastname = r[2]
+	    service = r[4]
+	    descript = r[5]
 	    if (checkEmail == my_emails):
 	        # If the email in database matches email in cookie
 	        data['hasCookie'] = True
 	        data['match'] = True
+	        data['firstname'] = firstname
+	        data['lastname'] = lastname
+	        data['service'] = service
+	        data['descript'] = descript
 
 	# If it has a cookie of key email, but value is not inside database
 	c.execute('select * from users where email=?;', [my_emails]);

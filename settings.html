@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Settings</title>
+
+	<!-- Defensive coding in case bootstrap server is down -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/bootstrap-theme.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="js/boostrap.min.js"></script>
+	<script src="js/boostrap.js"></script>
+	<link rel="stylesheet" href="css/boostrap-theme.min.css">
+
+	<!-- Get from online -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script
+		src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<link rel="stylesheet"
+		href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#settings").hide();
+			$("#wrongCookie").hide();
+
+			$.ajax({
+				url: "/cgi-bin/validateCookie.py",
+				type: "GET",
+				dataType: "json",
+				success: function(data) {
+					console.log(data);
+					if(data.hasCookie==true && data.match==true) {
+						$("#settings").show();
+					}
+					else {
+						$("#wrongCookie").show();
+					}
+				},
+				error: function() {
+					console.log("Error, something happened with cookie validation");
+				},
+			});
+
+			$("#submit").click(function() {
+				$.ajax({
+					url: "/cgi-bin/update.py",
+					type: "POST",
+					data: {
+						password: $("#password").val(),
+						services: $("#services").val(),
+						description: $("#description").val()
+					},
+					dataType: "text",
+					success: function(data) {
+						console.log("You got something back " + data);
+						if(data == "OK") {
+							alert("Your information has been changed!");
+							$("#password").val() = "";
+							$("#services").val() = "";
+							$("#description").val() = "";
+						}
+					},
+					error: function() {
+						console.log("Error, probably not logged in");
+					}
+				});
+			});
+		}); //document ready
+	</script>
+</head>
+
+<body>
+	<div class="container">
+		<header>
+			<h1>CRUDList</h1>
+		</header>
+		<!-- Only display wrong cookie material if validate cookie doesn't work -->
+		<div id="wrongCookie">
+			It seems like you haven't registered/logged in. Click here to return to the homepage <a href="index.html">Click me!</a>
+		</div>
+
+		<div id="settings">
+			<h2>Update Settings</h2>
+			<div class="form-group">
+				<label for="password">New Password:</label>
+				<input type="password" class="form-control" placeholder="New Password" id="password" name="password" autofocus>
+			</div>
+			<div class="form-group">
+				<label for="services">New Services:</label>
+				<input type="text" class="form-control" placeholder="New Services" id="services" name="services">
+			</div>
+			<!-- The update things go in here -->
+			<div class="form-group">
+				<label for="description">New Description:</label>
+				<textarea id="description" name="description" class="form-control" rows="5" placeholder="Describe what you're looking for"></textarea>
+			</div>
+			<center><div class="form-group">
+				<button type="submit" id="submit" class="btn btn-default">Submit</button>
+			</div></center>
+
+			<center><a class="btn btn-danger btn-xs confirm" href="cgi-bin/delete.py" style="margin-top: 2%">Delete My Account</a></center>
+		</div> <!-- #settings -->
+	</div>
+</body>
+</html>
