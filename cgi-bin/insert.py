@@ -16,7 +16,8 @@ my_lastname = form['lastname'].value
 my_email = form['email'].value
 my_password = form['password'].value
 my_description = form['description'].value
-my_services = form['services'].value
+my_services = form['servicebutton'].value
+my_buyer = form['buysell'].value
 
 # Help from https://dev.mysql.com/doc/connector-python/en/connector-python-api-mysqlcursor-fetchall.html
 c.execute('select * from users where email=?;', [my_email])
@@ -46,7 +47,7 @@ if len(results)>0:
 		</html>'''
 else:
 
-	c.execute('insert into users values (?, ?, ?, ?, ?, ?)', (my_email, my_firstname, my_lastname, my_password, my_services, my_description))
+	c.execute('insert into users values (?, ?, ?, ?, ?, ?, ?)', (my_email, my_firstname, my_lastname, my_password, my_services, my_description, my_buyer))
 	conn.commit()
 
 	print "Content-Type: text/html"

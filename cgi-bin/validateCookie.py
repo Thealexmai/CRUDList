@@ -12,7 +12,7 @@ cookie = Cookie.SimpleCookie(stored_cookie_string)
 print "Content-Type: text/html"
 print
 
-data = {}
+data = { }
 
 # If there is absolutely no cookie stored
 if not stored_cookie_string:

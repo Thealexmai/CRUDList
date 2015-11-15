@@ -15,7 +15,7 @@ cookie = Cookie.SimpleCookie(stored_cookie_string)
 my_email = cookie['email'].value
 my_password = form['password'].value
 my_description = form['description'].value
-my_services = form['services'].value
+my_services = form['servicebutton'].value
 
 c.execute("UPDATE users SET password=?, description=?, service=? WHERE email =?;", (my_password, my_description, my_services, my_email))
 conn.commit()

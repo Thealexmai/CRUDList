@@ -29,6 +29,7 @@ for r in c.execute('select * from users where email=?;', [my_emails]):
 	password=r[3]
 	services=r[4]
 	descript=r[5]
+	buyer=r[6]
 
 	if (password == my_passwords):
 		data['email'] = email
@@ -37,6 +38,7 @@ for r in c.execute('select * from users where email=?;', [my_emails]):
 		data['password']=password
 		data['services']=services
 		data['descript']=descript
+		data['buyer']=buyer
 		print json.dumps(data)
 
 conn.close()
