@@ -42,6 +42,9 @@
 					if(data['hasCookie']==true && data['match']==true) {
 						$("#loggedin").show();
 						$("#logout").show();
+						//Calls ajax function to display the people of interest
+						displayInterested();
+
 						$("#welcomename").append(data['firstname'] + " " + data['lastname']);
 					}
 					else {
@@ -50,7 +53,7 @@
 					// alert("You've got cookie stuff!" + JSON.stringify(data));
 				},
 				error: function() {
-					console.log("Error: " + JSON.stringify(data));
+					console.log("oops");
 				},
 			});
 
@@ -76,6 +79,9 @@
 						setCookie(data.email, 7);
 						$("#loggedin").show();
 						$("#logout").show();
+
+						//Calls function that displays people of interest
+						displayInterested();
 						$("#welcomename").append(data.firstname + " " + data.lastname);
 					},
 					// Code to run if the request fails
@@ -89,6 +95,30 @@
 				deleteCookie();
 				window.location.replace("index.html");
 			});
+
+
+			function displayInterested() {
+				//Nested ajax calls the displayinterested
+				$.ajax({
+					url: "/cgi-bin/displayinterested.py",
+					type: "POST",
+					dataType: "json",
+					success: function(data) {
+						// console.log(data[0]); //Returns ["Water", "Bottle", "waterbottle100@gmail.com"]
+						// console.log(data[0][0]); //Returns "Water"
+						console.log("List is this long: " + data.length);
+						for(i=0; i<data.length; i++) {
+							// $("#populate").append(data[i][0] + " " + data[i][1] + "<br>");
+							
+							console.log(data[i]);
+						}
+					},
+					error: function(){
+						console.log("oops can't display");
+					},
+				});
+			} //end of displayInterested
+
 		}); //End of document ready
 	</script>
 
@@ -115,7 +145,7 @@
 		</div>
 		<div id="logout">
 			<ul class="nav navbar-nav navbar-right">
-				<li><button class="btn btn-warning btn-xs" id="logoutbutton"><span class="glyphicon glyphicon-off"> Logout</span></li>
+				<li><button class="btn btn-warning btn-xs" id="logoutbutton"><span class="glyphicon glyphicon-off"> Logout</span></button></li>
 			</ul>
 		</div>
 	</div>
@@ -151,7 +181,7 @@
 			</div>
 			<!-- Radio buttons for services -->
 			<div class="form-group col-xs-12">
-				<label for="servicebutton">Services </label>
+				<label for="service">Services </label>
 				<label class="radio-inline"><input type="radio" value=0 name="servicebutton">Haircut</label>
 				<label class="radio-inline"><input type="radio" value=1 name="servicebutton">Taxi</label>
 				<label class="radio-inline"><input type="radio" value=2 name="servicebutton">Food</label>
@@ -199,7 +229,11 @@
 
 		<!-- Empy placeholders for succesful log in -->
 		<div id="loggedin">
-			<div id="welcomename">Welcome Back</div>
+			<div id="welcomename">Welcome Back </div>
+			<div id="interested">People who may interest you...<br></div>
+			<div class="container-fluid">
+				<div class="row-fluid" id="populate"> </div>
+			</div>
 			<!-- Click on settings link and will take you to settings page -->
 			<center><a class="btn btn-default" id="settingsbutton" href="/settings.html">Settings</a></center>
 		</div>

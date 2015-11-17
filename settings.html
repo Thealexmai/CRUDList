@@ -25,6 +25,9 @@
 		$(document).ready(function() {
 			$("#settings").hide();
 			$("#wrongCookie").hide();
+			$("#logoutbutton").hide();
+			$("#editsuccess").hide();
+			$("#editfail").hide();
 
 			$.ajax({
 				url: "/cgi-bin/validateCookie.py",
@@ -34,9 +37,11 @@
 					console.log(data);
 					if(data.hasCookie==true && data.match==true) {
 						$("#settings").show();
+						$("#logoutbutton").show();
 					}
 					else {
 						$("#wrongCookie").show();
+
 					}
 				},
 				error: function() {
@@ -44,28 +49,66 @@
 				},
 			});
 
-			$("#submit").click(function() {
+			//For password
+			$("#newpassword").click(function() {
 				$.ajax({
-					url: "/cgi-bin/update.py",
-					type: "POST",
-					data: {
-						password: $("#password").val(),
-						services: $("#services").val(),
-						description: $("#description").val()
+					url : "/cgi-bin/updatepass.py",
+					data : {
+						password : $("#password").val()
 					},
-					dataType: "text",
-					success: function(data) {
-						console.log("You got something back " + data);
-						if(data == "OK") {
-							alert("Your information has been changed!");
-							$("#password").val() = "";
-							$("#services").val() = "";
-							$("#description").val() = "";
-						}
+					type : "POST",
+					dataType : "text",
+					success : function(data) {
+						$("#editsuccess").fadeIn('slow');
+						console.log(data);
 					},
-					error: function() {
-						console.log("Error, probably not logged in");
-					}
+					// Code to run if the request fails
+					error : function() {
+						$("#editfail").fadeIn('slow');
+						console.log("Aiya: " + data);
+					},
+				});
+			});
+
+			//For services
+			$("#newservice").click(function() {
+				$.ajax({
+					url : "cgi-bin/updateservices.py",
+					data : {
+						service : $('input[name="servicebutton"]:checked').val()
+					},
+					type : "POST",
+					dataType : "text",
+					success : function(data) {
+						$("#editsuccess").fadeIn('slow');
+						console.log(data);
+					},
+					// Code to run if the request fails
+					error : function() {
+						$("#editfail").fadeIn('slow');
+						console.log("Aiya: " + data);
+					},
+				});
+			});
+
+			//For description
+			$("#newdescription").click(function() {
+				$.ajax({
+					url : "/cgi-bin/updatedescript.py",
+					data : {
+						description : $("#description").val()
+					},
+					type : "POST",
+					dataType : "text",
+					success : function(data) {
+						$("#editsuccess").fadeIn('slow');
+						console.log(data);
+					},
+					// Code to run if the request fails
+					error : function() {
+						$("#editfail").fadeIn('slow');
+						console.log("Aiya: " + data);
+					},
 				});
 			});
 
@@ -108,24 +151,44 @@
 
 		<div id="settings">
 			<h2>Update Settings</h2>
-			<div class="form-group">
-				<label for="password">New Password:</label>
+			<div class="col-xs-12" id="editsuccess">
+				<h2>Your information has been edited!</h2>
+			</div>
+			<div class="col-xs-12" id="editfail">
+				<h2>Invalid change. Please enter and try again.</h2>
+			</div>
+			<div class="form-group col-xs-12">
+				<label for="newpassword">New Password:</label>
 				<input type="password" class="form-control" placeholder="New Password" id="password" name="password" autofocus>
 			</div>
-			<div class="form-group">
-				<label for="services">New Services:</label>
-				<input type="text" class="form-control" placeholder="New Services" id="services" name="services">
+			<div class="form-group col-xs-12 input-lg">
+				<button class="btn btn-primary" id="newpassword">Change</button>
 			</div>
-			<!-- The update things go in here -->
-			<div class="form-group">
-				<label for="description">New Description:</label>
-				<textarea id="description" name="description" class="form-control" rows="5" placeholder="Describe what you're looking for"></textarea>
-			</div>
-			<center><div class="form-group">
-				<button type="submit" id="submit" class="btn btn-default">Submit</button>
-			</div></center>
 
-			<center><a class="btn btn-danger btn-xs confirm" href="cgi-bin/delete.py" style="margin-top: 2%">Delete My Account</a></center>
+			<!-- Radio buttons for services -->
+			<div class="form-group col-xs-12">
+				<label for="newservice">Services: </label>
+				<label class="radio-inline"><input type="radio" value=0 name="servicebutton">Haircut</label>
+				<label class="radio-inline"><input type="radio" value=1 name="servicebutton">Taxi</label>
+				<label class="radio-inline"><input type="radio" value=2 name="servicebutton">Food</label>
+				<label class="radio-inline"><input type="radio" value=3 name="servicebutton">Fix bicycle/car</label>
+				<label class="radio-inline"><input type="radio" value=4 name="servicebutton">Make website</label>
+			</div>
+			<div class="form-group col-xs-12">
+				<button class="btn btn-primary" id="newservice">Change</button>
+			</div>
+
+			<!-- The update things go in here -->
+			<div class="form-group col-xs-12">
+				<label for="newdescription">New Description:</label>
+				<textarea id="description" class="form-control" name="description" rows="5" placeholder="Describe what you're looking for"></textarea>
+			</div>
+
+			<div class="form-group col-xs-12">
+				<button class="btn btn-primary" id="newdescription">Change</button>
+			</div>
+
+			<div class="col-xs-12"><a class="btn btn-danger btn-xs" href="cgi-bin/delete.py" style="margin-top: 2%">Delete My Account</a></div>
 		</div> <!-- #settings -->
 	</div>
 </body>
