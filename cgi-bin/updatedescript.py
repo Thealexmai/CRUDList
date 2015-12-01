@@ -12,16 +12,13 @@ import os
 stored_cookie_string = os.environ.get('HTTP_COOKIE')
 cookie = Cookie.SimpleCookie(stored_cookie_string)
 
-my_email = cookie['email'].value
-my_password = form['password'].value
-my_description = form['description'].value
-my_services = form['servicebutton'].value
-
-c.execute("UPDATE users SET password=?, description=?, service=? WHERE email =?;", (my_password, my_description, my_services, my_email))
-conn.commit()
-
 print "Content-Type: text/html"
 print
+
+my_email = cookie['email'].value
+my_descript = form['description'].value
+c.execute("UPDATE users SET description = ? WHERE email = ?;", (my_descript, my_email))
+conn.commit()
 
 print "OK"
 
