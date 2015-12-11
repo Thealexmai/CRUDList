@@ -8,21 +8,24 @@ import cgi
 form = cgi.FieldStorage()
 import Cookie
 import os
+import json
 
 stored_cookie_string = os.environ.get('HTTP_COOKIE')
 cookie = Cookie.SimpleCookie(stored_cookie_string)
 
 my_email = cookie['email'].value
-my_password = form['password'].value
-my_description = form['description'].value
-my_services = form['servicebutton'].value
+my_picture = form['picture'].value
 
-c.execute("UPDATE users SET password=?, description=?, service=? WHERE email =?;", (my_password, my_description, my_services, my_email))
-conn.commit()
+data = {}
 
 print "Content-Type: text/html"
 print
 
-print "OK"
+c.execute("UPDATE users SET picture = ? WHERE email= ?;", (my_picture, my_email))
+conn.commit()
+
+data['verify'] = "OK"
+
+print json.dumps(data)
 
 conn.close()
