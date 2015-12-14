@@ -19,6 +19,13 @@ c = conn.cursor()
 import json
 data = {} 
 
+def convertBuyer(theint):
+	if theint==1:
+		theint = "Buyer"
+	else:
+		theint = "Seller"
+	return theint
+
 print "Content-Type: text/html"
 print
 
@@ -30,6 +37,8 @@ for r in c.execute('select * from users where email=?;', [my_emails]):
 	services=r[4]
 	descript=r[5]
 	buyer=r[6]
+	picture = r[7]
+	location = r[8]
 
 	if (password == my_passwords):
 		data['email'] = email
@@ -38,7 +47,9 @@ for r in c.execute('select * from users where email=?;', [my_emails]):
 		data['password']=password
 		data['services']=services
 		data['descript']=descript
-		data['buyer']=buyer
+		data['buyer']=convertBuyer(buyer)
+		data['picture'] = picture
+		data['location'] = location
 		print json.dumps(data)
 
 conn.close()

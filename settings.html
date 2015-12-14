@@ -1,5 +1,4 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -405,8 +404,6 @@
 </body>
 
 =======
-=======
->>>>>>> parent of 7ab3749... Final Product
 <!DOCTYPE html>
 <html>
 <head>
@@ -434,12 +431,9 @@
 		$(document).ready(function() {
 			$("#settings").hide();
 			$("#wrongCookie").hide();
-<<<<<<< HEAD
 			$("#logoutbutton").hide();
 			$("#editsuccess").hide();
 			$("#editfail").hide();
-=======
->>>>>>> parent of 7ab3749... Final Product
 
 			$.ajax({
 				url: "/cgi-bin/validateCookie.py",
@@ -449,17 +443,11 @@
 					console.log(data);
 					if(data.hasCookie==true && data.match==true) {
 						$("#settings").show();
-<<<<<<< HEAD
 						$("#logoutbutton").show();
 					}
 					else {
 						$("#wrongCookie").show();
 
-=======
-					}
-					else {
-						$("#wrongCookie").show();
->>>>>>> parent of 7ab3749... Final Product
 					}
 				},
 				error: function() {
@@ -467,7 +455,6 @@
 				},
 			});
 
-<<<<<<< HEAD
 			//For password
 			$("#newpassword").click(function() {
 				$.ajax({
@@ -528,30 +515,6 @@
 						$("#editfail").fadeIn('slow');
 						console.log("Aiya: " + data);
 					},
-=======
-			$("#submit").click(function() {
-				$.ajax({
-					url: "/cgi-bin/update.py",
-					type: "POST",
-					data: {
-						password: $("#password").val(),
-						services: $("#services").val(),
-						description: $("#description").val()
-					},
-					dataType: "text",
-					success: function(data) {
-						console.log("You got something back " + data);
-						if(data == "OK") {
-							alert("Your information has been changed!");
-							$("#password").val() = "";
-							$("#services").val() = "";
-							$("#description").val() = "";
-						}
-					},
-					error: function() {
-						console.log("Error, probably not logged in");
-					}
->>>>>>> parent of 7ab3749... Final Product
 				});
 			});
 
@@ -594,7 +557,6 @@
 
 		<div id="settings">
 			<h2>Update Settings</h2>
-<<<<<<< HEAD
 			<div class="col-xs-12" id="editsuccess">
 				<h2>Your information has been edited!</h2>
 			</div>
@@ -637,27 +599,4 @@
 	</div>
 </body>
 >>>>>>> origin/master
-=======
-			<div class="form-group">
-				<label for="password">New Password:</label>
-				<input type="password" class="form-control" placeholder="New Password" id="password" name="password" autofocus>
-			</div>
-			<div class="form-group">
-				<label for="services">New Services:</label>
-				<input type="text" class="form-control" placeholder="New Services" id="services" name="services">
-			</div>
-			<!-- The update things go in here -->
-			<div class="form-group">
-				<label for="description">New Description:</label>
-				<textarea id="description" name="description" class="form-control" rows="5" placeholder="Describe what you're looking for"></textarea>
-			</div>
-			<center><div class="form-group">
-				<button type="submit" id="submit" class="btn btn-default">Submit</button>
-			</div></center>
-
-			<center><a class="btn btn-danger btn-xs confirm" href="cgi-bin/delete.py" style="margin-top: 2%">Delete My Account</a></center>
-		</div> <!-- #settings -->
-	</div>
-</body>
->>>>>>> parent of 7ab3749... Final Product
 </html>
