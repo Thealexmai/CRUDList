@@ -16,11 +16,8 @@ cookie = Cookie.SimpleCookie(stored_cookie_string)
 my_email = cookie['email'].value
 my_password = form['password'].value
 
-<<<<<<< HEAD:cgi-bin/updatepass.py
 data = {}
 
-=======
->>>>>>> origin/master:cgi-bin/updatepass.py
 c.execute("UPDATE users SET password=? WHERE email= ? ;", (my_password, my_email))
 conn.commit()
 

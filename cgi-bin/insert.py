@@ -35,87 +35,74 @@ my_firstname = stripTags(my_firstname)
 my_lastname = stripTags(my_lastname)
 my_description = stripTagsfromDescription(my_description)
 
-print "Content-Type: text/html"
-print
+# Help from https://dev.mysql.com/doc/connector-python/en/connector-python-api-mysqlcursor-fetchall.html
+c.execute('select * from users where email=?;', [my_email])
+# fetches all the rows that has the key email
+results=c.fetchall()
 
-print my_firstname
-print my_lastname
-print my_email
-print my_password
-print my_description
-print my_services
-print my_buyer
-print my_picture
-print my_location
-
-# # Help from https://dev.mysql.com/doc/connector-python/en/connector-python-api-mysqlcursor-fetchall.html
-# c.execute('select * from users where email=?;', [my_email])
-# # fetches all the rows that has the key email
-# results=c.fetchall()
-
-# if len(results)>0:
-# 	print"Content-Type: text/html"
-# 	print
-# 	print '''
-# 		<!doctype html>
-# 		<html>
-# 		<head>
-# 			<meta name="viewport" content="width=device-width, initial-scale=1">
-# 			<title>Cannot</title>
-# 			<!-- Defensive coding in case bootstrap server is down -->
-# 			<script
-# 				src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-# 			<script src="../js/jquery-1.11.3.min.js"></script>
-# 			<link rel="stylesheet" href="../css/bootstrap.css">
-# 			<link rel="stylesheet" href="../css/bootstrap.min.css">
-# 			<link rel="stylesheet" href="../css/bootstrap-theme.css">
-# 			<link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+if len(results)>0:
+	print"Content-Type: text/html"
+	print
+	print '''
+		<!doctype html>
+		<html>
+		<head>
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<title>Cannot</title>
+			<!-- Defensive coding in case bootstrap server is down -->
+			<script
+				src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+			<script src="../js/jquery-1.11.3.min.js"></script>
+			<link rel="stylesheet" href="../css/bootstrap.css">
+			<link rel="stylesheet" href="../css/bootstrap.min.css">
+			<link rel="stylesheet" href="../css/bootstrap-theme.css">
+			<link rel="stylesheet" href="../css/bootstrap-theme.min.css">
 			
 			
-# 			<script src="../js/bootstrap.js"></script>
-# 			<script src="../js/bootstrap.min.js"></script>
-# 			<!-- Get from online -->
+			<script src="../js/bootstrap.js"></script>
+			<script src="../js/bootstrap.min.js"></script>
+			<!-- Get from online -->
 
-# 			<script
-# 				src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-# 			<link rel="stylesheet"
-# 				href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-# 		</head>
+			<script
+				src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+			<link rel="stylesheet"
+				href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		</head>
 
-# 		<body>
-# 		<div class="container">
-# 		<h1>Your email already exists. Please go back and try again.<h1><br>
-# 		<a class="btn btn-danger btn-lg" href="../">Home Page</a>
-# 		</div>
-# 		</body>
-# 		</html>'''
-# else:
+		<body>
+		<div class="container">
+		<h1>Your email already exists. Please go back and try again.<h1><br>
+		<a class="btn btn-danger btn-lg" href="../">Home Page</a>
+		</div>
+		</body>
+		</html>'''
+else:
 
-# 	c.execute('insert into users values (?, ?, ?, ?, ?, ?, ?, ?, ?)', (my_email, my_firstname, my_lastname, my_password, my_services, my_description, my_buyer, my_picture, my_location))
-# 	conn.commit()
+	c.execute('insert into users values (?, ?, ?, ?, ?, ?, ?, ?, ?)', (my_email, my_firstname, my_lastname, my_password, my_services, my_description, my_buyer, my_picture, my_location))
+	conn.commit()
 
-# 	print "Content-Type: text/html"
-# 	print 
+	print "Content-Type: text/html"
+	print 
 
-# 	print '''
-# 			<!doctype html>
-# 			<html>
-# 			<head>
-# 				<title>Created</title>
-# 				<meta name="viewport" content="width=device-width, initial-scale=1">
-# 				<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-# 				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-# 				<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-# 			</head>
+	print '''
+			<!doctype html>
+			<html>
+			<head>
+				<title>Created</title>
+				<meta name="viewport" content="width=device-width, initial-scale=1">
+				<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+				<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+			</head>
 
-# 			<body>
-# 				<div class="container">
-# 				<h1>CRUDLIST</h1>
-# 				Hello ''' + my_firstname +  " " + my_lastname + " " 
-# 	print 	'''<h2>You have created an account!</h2>
-# 				Click here to return to the main page.<br>
-# 				<a class="btn btn-success" href="../">Home Page</a>
-# 				</div>
-# 				</body> </html>'''
+			<body>
+				<div class="container">
+				<h1>CRUDLIST</h1>
+				Hello ''' + my_firstname +  " " + my_lastname + " " 
+	print 	'''<h2>You have created an account!</h2>
+				Click here to return to the main page.<br>
+				<a class="btn btn-success" href="../">Home Page</a>
+				</div>
+				</body> </html>'''
 
 conn.close()

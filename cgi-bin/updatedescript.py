@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 import cgitb
-<<<<<<< HEAD
 from string import maketrans
-=======
->>>>>>> origin/master
 cgitb.enable()
 import sqlite3
 conn = sqlite3.connect('accounts.db')
@@ -12,7 +9,6 @@ import cgi
 form = cgi.FieldStorage()
 import Cookie
 import os
-<<<<<<< HEAD
 import json
 
 
@@ -30,28 +26,14 @@ def stripTagsfromDescription(html):
 my_email = cookie['email'].value
 my_descript = form['description'].value
 my_descript = stripTagsfromDescription(my_descript)
-=======
-
-stored_cookie_string = os.environ.get('HTTP_COOKIE')
-cookie = Cookie.SimpleCookie(stored_cookie_string)
->>>>>>> origin/master
 
 print "Content-Type: text/html"
 print
 
-<<<<<<< HEAD
 c.execute("UPDATE users SET description = ? WHERE email = ?;", (my_descript, my_email))
 conn.commit()
 data['verify'] = "OK"
 
 print json.dumps(data)
-=======
-my_email = cookie['email'].value
-my_descript = form['description'].value
-c.execute("UPDATE users SET description = ? WHERE email = ?;", (my_descript, my_email))
-conn.commit()
-
-print "OK"
->>>>>>> origin/master
 
 conn.close()

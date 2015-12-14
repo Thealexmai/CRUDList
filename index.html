@@ -17,7 +17,6 @@
 	<link rel="stylesheet"
 		href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-<<<<<<< HEAD
 
 	<!-- Custom CSS -->
 	<link href="css/landing-page.css" rel="stylesheet">
@@ -43,192 +42,6 @@
 					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand topnav" href="index.html"><img src="/attachments/logo.jpg" style="max-height: 65px; max-width: 100px;"></a>
-=======
-	<!-- Defensive coding in case bootstrap server is down -->
-	<link rel="stylesheet" href="css/bootstrap-theme.css">
-	<link rel="stylesheet" href="css/boostrap-theme.min.css">
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<script src="js/boostrap.js"></script>
-	<script src="js/boostrap.min.js"></script>
-
-	<!-- Run Javascript connecting to server-->
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$(".form-group").hide();
-			$("#loggedin").hide();
-			$("#settings").hide();
-			$("#loginerror").hide();
-			$("#logout").hide();
-
-			// $("#testCheck").click(function() {
-			// 	alert($('input[name="buysell"]:checked').val());
-			// });
-			//Check to see if there is a cookie
-			$.ajax({
-				url: "/cgi-bin/validateCookie.py",
-				type: "GET",
-				dataType: "json",
-				success: function(data) {
-					console.log(data);
-					if(data['hasCookie']==true && data['match']==true) {
-						$("#loggedin").show();
-						$("#logout").show();
-						//Calls ajax function to display the people of interest
-						displayInterested();
-
-						$("#welcomename").append(data['firstname'] + " " + data['lastname']);
-					}
-					else {
-						$(".form-group").show();
-					}
-					// alert("You've got cookie stuff!" + JSON.stringify(data));
-				},
-				error: function() {
-					console.log("oops");
-				},
-			});
-
-			// Log in button
-			$("#loginsubmit").click(function() {
-				var emailToLookup = $("#loginemail").val();
-				var passwordToLookup = $("#loginpassword").val();
-				// console.log(emailToLookup);
-				$.ajax({
-					url : "/cgi-bin/login.py",
-					data : {
-						loginemail : emailToLookup,
-						loginpassword : passwordToLookup
-					},
-					type : "POST",
-					dataType : "json",
-					success : function(data) {
-						console.log(data);
-						//Hide the registration material
-						$(".form-group").hide();
-						$("#loginerror").hide();
-						// Create a cookie if successfully logged in - expires in 7 days
-						setCookie(data.email, 7);
-						$("#loggedin").show();
-						$("#logout").show();
-
-						//Calls function that displays people of interest
-						displayInterested();
-						$("#welcomename").append(data.firstname + " " + data.lastname);
-					},
-					// Code to run if the request fails
-					error : function() {
-						$("#loginerror").fadeIn('slow');
-					},
-				});
-			});
-
-			$("#logoutbutton").click(function() {
-				deleteCookie();
-				window.location.replace("index.html");
-			});
-
-
-			function displayInterested() {
-				//Nested ajax calls the displayinterested
-				$.ajax({
-					url: "/cgi-bin/displayinterested.py",
-					type: "POST",
-					dataType: "json",
-					success: function(data) {
-						// console.log(data[0]); //Returns ["Water", "Bottle", "waterbottle100@gmail.com"]
-						// console.log(data[0][0]); //Returns "Water"
-						console.log("List is this long: " + data.length);
-						for(i=0; i<data.length; i++) {
-							// $("#populate").append(data[i][0] + " " + data[i][1] + "<br>");
-							
-							console.log(data[i]);
-						}
-					},
-					error: function(){
-						console.log("oops can't display");
-					},
-				});
-			} //end of displayInterested
-
-		}); //End of document ready
-	</script>
-
-	<script type="text/javascript">
-		// Function that sets the cookie
-		function setCookie(value, expdays) {
-			var d = new Date();
-			d.setTime(d.getTime() + (expdays*24*60*60*1000));
-			var expires = "expires="+d.toUTCString();
-			document.cookie = "email=" + value + ";" + expires;
-		}
-
-		function deleteCookie() {
-			document.cookie = "email=" + null + ";";
-		}
-	</script>
-</head>
-
-<body>
-<nav class="navbar navbar-inverse">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="index.html">CRUDList</a>
-		</div>
-		<div id="logout">
-			<ul class="nav navbar-nav navbar-right">
-				<li><button class="btn btn-warning btn-xs" id="logoutbutton"><span class="glyphicon glyphicon-off"> Logout</span></button></li>
-			</ul>
-		</div>
-	</div>
-</nav>
-
-	<div class="container">
-		<header>
-			<h1>CRUDList</h1>
-		</header>
-
-		<!-- For the buyer -->
-		<h2 class="form-group col-xs-12" id="register">Register</h2>
-		<form method ="post" action="cgi-bin/insert.py">
-			<div class="form-group col-xs-6">
-				<label for="firstname">First Name</label> <input type="text"
-					id="firstname" name="firstname" class="form-control"
-					placeholder="First name">
-			</div>
-			<div class="form-group col-xs-6">
-				<label for="lastname">Last Name</label> <input type="text"
-					id="lastname" name="lastname" class="form-control"
-					placeholder="Last name">
-			</div>
-			<div class="form-group col-xs-12">
-				<label for="email">Email address</label> <input type="email"
-					name="email" id="email" class="form-control"
-					placeholder="@u.rochester.edu">
-			</div>
-			<div class="form-group col-xs-12">
-				<label for="password">Password</label> <input type="password"
-					name="password" id="password" class="form-control"
-					placeholder="Password">
-			</div>
-			<!-- Radio buttons for services -->
-			<div class="form-group col-xs-12">
-				<label for="service">Services </label>
-				<label class="radio-inline"><input type="radio" value=0 name="servicebutton">Haircut</label>
-				<label class="radio-inline"><input type="radio" value=1 name="servicebutton">Taxi</label>
-				<label class="radio-inline"><input type="radio" value=2 name="servicebutton">Food</label>
-				<label class="radio-inline"><input type="radio" value=3 name="servicebutton">Fix bicycle/car</label>
-				<label class="radio-inline"><input type="radio" value=4 name="servicebutton">Make website</label>
-			</div>
-			<div class="form-group col-xs-12">
-				<label for="description">Tell me about yourself</label>
-				<textarea id="description" name="description" class="form-control"
-					rows="5" placeholder="Describe what you're looking for"></textarea>
-			</div>
-			<div class="form-group col-xs-12">
-				<label class="radio-inline"><input type="radio" value=1 name="buysell">Buyer</label>
-				<label class="radio-inline"><input type="radio" value=0 name="buysell">Seller</label>
->>>>>>> origin/master
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -311,27 +124,27 @@
 								<div class="form-group col-xs-6">
 									<label for="firstname">First Name</label> <input type="text"
 										id="firstname" name="firstname" class="form-control"
-										placeholder="First name">
+										placeholder="First name" required>
 								</div>
 								<div class="form-group col-xs-6">
 									<label for="lastname">Last Name</label> <input type="text"
 										id="lastname" name="lastname" class="form-control"
-										placeholder="Last name">
+										placeholder="Last name" required>
 								</div>
 								<div class="form-group col-xs-12">
 									<label for="email">Email address</label> <input type="email"
 										name="email" id="email" class="form-control"
-										placeholder="ex: jsmith@gmail.com">
+										placeholder="ex: jsmith@gmail.com" required>
 								</div>
 								<div class="form-group col-xs-12">
 									<label for="password">Password</label> <input type="password"
 										name="password" id="password" class="form-control"
-										placeholder="Password">
+										placeholder="Password" required>
 								</div>
 								<!-- Radio buttons for services -->
 								<div class="form-group col-xs-12">
 									<label for="service">Services </label><br>
-									<label class="radio-inline"><input type="radio" value=0 name="servicebutton">Haircut</label>
+									<label class="radio-inline"><input type="radio" value=0 name="servicebutton" required>Haircut</label>
 									<label class="radio-inline"><input type="radio" value=1 name="servicebutton">Taxi</label>
 									<label class="radio-inline"><input type="radio" value=2 name="servicebutton">Food</label>
 									<label class="radio-inline"><input type="radio" value=3 name="servicebutton">Fix bicycle/car</label>
@@ -340,10 +153,10 @@
 
 								<div class="form-group col-xs-12">
 									<label for="location">Location: </label>
-									  <select class="form-control" name="location">
+									  <select class="form-control" name="location" required>
 										<option>Riverview</option>
 										<option>Residence Quad</option>
-										<option>Sue B</option>
+										<option>Susan B. Anthony Halls</option>
 										<option>Phase</option>
 										<option>Southside</option>
 										<option>Off-Campus</option>
@@ -354,8 +167,7 @@
 								<div class = "form-group col-xs-12">
 									<label for = "picture">Select Profile Picture: </label>
 								
-								
-									<select class="form-control" name="picture">
+									<select class="form-control" name="picture" required>
 										<option value="/attachments/hat.jpg">Hat</option>
 										<option value="/attachments/car.jpg">Car</option>
 										<option value="/attachments/iron.jpg">Iron</option>
@@ -367,10 +179,10 @@
 								<div class="form-group col-xs-12">
 									<label for="description">Tell me about yourself</label>
 									<textarea id="description" name="description" class="form-control"
-										rows="5" placeholder="Describe what you're looking for"></textarea>
+										rows="5" placeholder="Describe what you're looking for" required></textarea>
 								</div>
 								<div class="form-group col-xs-12">
-									<label class="radio-inline"><input type="radio" value=1 name="buysell">Buyer</label>
+									<label class="radio-inline"><input type="radio" value=1 name="buysell" required>Buyer</label>
 									<label class="radio-inline"><input type="radio" value=0 name="buysell">Seller</label>
 								</div>
 								<div class="form-group col-xs-12">
@@ -400,7 +212,6 @@
 
 	   <!-- Empy placeholders for succesful log in -->
 		<div id="loggedin">
-<<<<<<< HEAD
 			<div class="row">
 				<div class="col-lg-10" style="padding-left:100px;">
 					<div id="welcomename">
@@ -422,16 +233,6 @@
 						<li><a data-toggle="tab" href="#bikepopulate">Fix Bicycle/Car</a></li>
 						<li><a data-toggle="tab" href="#websitepopulate">Make Website</a></li>
 					</ul>
-=======
-			<div id="welcomename">Welcome Back </div>
-			<div id="interested">People who may interest you...<br></div>
-			<div class="container-fluid">
-				<div class="row-fluid" id="populate"> </div>
-			</div>
-			<!-- Click on settings link and will take you to settings page -->
-			<center><a class="btn btn-default" id="settingsbutton" href="/settings.html">Settings</a></center>
-		</div>
->>>>>>> origin/master
 
 					<div class="tab-content">
 						<div class="row-fluid tab-pane fade in active" id="matches"><p id="peopleInterest">People who may interest you...</p></div>

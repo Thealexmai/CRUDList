@@ -25,25 +25,15 @@ if row:
 else:
 	pass
 
-<<<<<<< HEAD
-=======
-# print my_services
-
->>>>>>> origin/master
 print "Content-Type: text/html"
 print 
 if (my_buyer[0] == 1): #The person logged in is a buyer
 
-<<<<<<< HEAD
 	for r in c.execute("SELECT firstname, lastname, email, picture, location FROM users WHERE buyer = 0 AND service = ?;", [my_services]):
-=======
-	for r in c.execute("SELECT firstname, lastname, email FROM users WHERE buyer = 0 AND service = ?;", [my_services]):
->>>>>>> origin/master
 		t = [] # new list
 		email = r[0]
 		firstname = r[1]
 		lastname = r[2]
-<<<<<<< HEAD
 		picture = r[3]
 		location = r[4]
 		buyer = "Seller"
@@ -53,25 +43,15 @@ if (my_buyer[0] == 1): #The person logged in is a buyer
 		t.append(buyer)
 		t.append(picture)
 		t.append(location)
-=======
-		t.append(email)
-		t.append(firstname)
-		t.append(lastname)
->>>>>>> origin/master
 		x.append(t)
 
 else: #The person logged in is a seller
 
-<<<<<<< HEAD
 	for counter in c.execute("SELECT firstname, lastname, email, picture, location FROM users WHERE buyer = 1 AND service = ?;", [my_services]):
-=======
-	for counter in c.execute("SELECT firstname, lastname, email FROM users WHERE buyer = 1 AND service = ?;", [my_services]):
->>>>>>> origin/master
 		t = [] # new list
 		email = counter[0]
 		firstname = counter[1]
 		lastname = counter[2]
-<<<<<<< HEAD
 		picture = counter[3]
 		location = counter[4]
 		buyer = "Buyer"
@@ -81,24 +61,9 @@ else: #The person logged in is a seller
 		t.append(buyer)
 		t.append(picture)
 		t.append(location)
-=======
-		t.append(email)
-		t.append(firstname)
-		t.append(lastname)
->>>>>>> origin/master
 		x.append(t)
 		
 print json.dumps(x)
 
-<<<<<<< HEAD
-=======
-
-# def my_ajax_view(request):
-# 	if not request.is_ajax():
-# 		raise Http404
-
-# 	data =
-
->>>>>>> origin/master
 conn.commit()
 conn.close()

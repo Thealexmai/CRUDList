@@ -119,11 +119,11 @@ print '''<!doctype html>
 				latitude = 43.129009
 				longtitude = -77.632299
 			}
-			else if ("'''+data['location'] + '''" == "Quad") {
+			else if ("'''+data['location'] + '''" == "Residence Quad") {
 				latitude = 43.130106
 				longtitude = -77.631656
 			}
-			else if ("'''+data['location'] + '''" == "Susan B. Anthony Halls") {
+			else if ("'''+data['location'] + '''" == "Sue B") {
 				latitude = 43.129948
 				longtitude = -77.626525
 			}
