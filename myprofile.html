@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>My Profile</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script
+        src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet"
+        href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link href="css/landing-page.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    
+
+    <style>
+      #map {
+        width: 500px;
+        height: 400px;
+      }
+    </style>
+
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+ 
+    <script>
+       function initialize() {
+         var mapCanvas = document.getElementById('map');
+         var mapOptions = {
+           center: new google.maps.LatLng(43.1288914, -77.6254941),
+           zoom: 15,
+           mapTypeId: google.maps.MapTypeId.ROADMAP
+       }
+       var map = new google.maps.Map(mapCanvas, mapOptions)
+       }
+       google.maps.event.addDomListener(window, 'load', initialize);
+     
+     </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#logout").hide();
+            $("#wrongCookie").hide();
+            $("#profile").hide();
+
+            $.ajax({
+             url: "/cgi-bin/validateCookie.py",
+             type: "GET",
+             dataType: "json",
+             success: function(data) {
+                 console.log(data);
+                 if(data.hasCookie==true && data.match==true) {
+                     $("#logout").show();
+                        $("#profile").show();
+                        $("#nameHeader").append("<strong>" + data.firstname + " " + data.lastname + "</strong>");
+                        $("#service").append("<small>" + convertService(data.service) + "</small>");
+                        $("#about").append("<small>" + data.descript + "</small");
+                        $("#location").append("<small>" + data.location + "</small");
+                        $("#returnButton").attr('href', '../');
+                        $(".navbarphoto").attr("src",data['picture']);
+                        $(".fb-comments").attr("data-href", "localhost/www/cgi-bin/readprofiles.py?viewuser=" + data['email']);
+                 }
+                 else {
+                     $("#wrongCookie").show();
+
+                 }
+             },
+             error: function() {
+                 console.log("Error, something happened with cookie validation");
+             },
+            }); //End of ajax call
+
+            $("#logoutbutton").click(function() {
+                deleteCookie();
+                window.location.replace("index.html");
+            });
+            
+            function convertService(number) {
+                if(number == "0"){
+                    return "Haircut"
+                }
+                else if (number == "1"){
+                    return "Taxi"
+                }
+                else if (number == "2"){
+                    return "Food"
+                }
+                else if (number == "3"){
+                    return "Fix bicycle/car"
+                }
+                else if (number == "4"){
+                    return "Make website"
+                }
+            }
+        }); //End of document ready
+    </script>
+
+    <script type="text/javascript">
+        function deleteCookie() {
+            document.cookie = "email=" + null + ";" + "path=/;";
+        }
+    </script>
+
+    <!-- MAP STUFF -->
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script>
+    $.ajax({
+        url: "/cgi-bin/validateCookie.py",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            var latitude = 0
+            var longtitude = 0
+
+            if (data.location == "Southside") {
+                latitude = 43.117876;
+                longtitude = -77.631271;
+            }
+            else if (data.location == "Fraternity Quad") {
+                latitude = 43.129009;
+                longtitude = -77.632299;
+            }
+            else if (data.location == "Residence Quad") {
+                latitude = 43.130106;
+                longtitude = -77.631656;
+            }
+            else if (data.location == "Sue B") {
+                latitude = 43.129948;
+                longtitude = -77.626525;
+            }
+            else if (data.location == "Towers") {
+                latitude = 43.131756;
+                longtitude = -77.625508;
+            }
+            else if (data.location == "Phase") {
+                latitude = 43.130918;
+                longtitude = -77.622949;
+            }
+            else if (data.location == "Riverview") {
+                latitude = 43.133449;
+                longtitude = -77.630103;
+            }
+            else {
+                latitude = 43.131920;
+                longtitude = -77.633961;
+            }
+            console.log(data.location + "hi");
+            var mycenter = new google.maps.LatLng(latitude, longtitude);
+            var mapProp = {
+                center:mycenter,
+                zoom:16,
+                mapTypeId:google.maps.MapTypeId.ROADMAP
+            };
+            var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+            var marker=new google.maps.Marker({
+                position: mycenter,
+                animation:google.maps.Animation.BOUNCE
+            });
+            marker.setMap(map);
+            google.maps.event.addDomListener(window, 'load')
+        },
+        error: function() {
+            console.log("Error, something happened with cookie validation");
+        },
+    }); //End of ajax call
+    </script>
+    
+</head>
+
+
+
+
+<body>
+
+    <!-- Facebook comment -->
+    <div id="fb-root"></div>
+    <script>
+    $(document).ready(function() {
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+          fjs.parentNode.insertBefore(js, fjs);
+        }
+        (document, 'script', 'facebook-jssdk'));
+    });
+    </script>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand topnav" href="index.html"><img src="/attachments/logo.jpg" style="max-height: 65px; max-width: 100px;"></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div id="logout">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="myprofile.html"><img class = "navbarphoto" src="" style="height:20px;width:20px"> My Profile</a></li>
+                        <li><a id="settingsbutton" href="settings.html"><span class="glyphicon glyphicon-lock"></span> Settings</a></li>
+                        <li><a id="logoutbutton" href="index.html"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
+                        
+                    </ul>
+                 </div>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <div class = "landingPageBod">
+    <!-- Header -->
+    <a name="about"></a>
+                
+    <!-- Container for main body -->
+    <!-- Facebook comment -->
+    <div id="fb-root"></div>
+    <script>
+    $(document).ready(function() {
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+          fjs.parentNode.insertBefore(js, fjs);
+        }
+        (document, 'script', 'facebook-jssdk'));
+    });
+    </script>
+    
+
+    
+    <!-- Container for main body -->
+    <div class="container">
+        <div id="wrongCookie">
+            It seems like you haven't registered/logged in. Click here to return to the homepage <a href="index.html">Click me!</a>
+        </div>
+    </div> <!-- End of regular container -->
+
+    <!-- Container for photo -->
+    <div id="profile">
+        <div class="container-fluid">
+            <div class="row" style="padding-top:75px;text-align:center;">
+                <!-- Empty div for name -->
+                <h1 id="nameHeader"> </h1>
+            </div>
+            <div class="row" style="padding:25px;text-align:center;">
+                <div class="col-md-10" style="padding:25px;display:inline-block;float:none;text-align:left;border-style: inset;">
+                    <div class="col-md-6" style="text-align:center;">
+                        <img class = "navbarphoto" src="" class="img-circle" style="height:300px;width:300px;" alt="profile img">
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Empty header for service listing -->
+                        <h3 id="service">Service: </h3>
+                        <!-- Empty paragraph for description -->
+                        <h3 id="about">About: </h3>
+                        <!-- Empty paragraph for location -->
+                        <h3 id="location">Located in: </h3>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- End of container fluid -->
+    </div>
+    <!-- MAP STUFF -->
+     <div id="googleMap" style="width:500px;height:380px; margin-left:auto; margin-right:auto"></div>
+     <!-- Facebook comment -->
+    <div class="fb-comments" data-width="100%" data-numposts="5"></div>
+
+    
+
+    <a  name="contact"></a>
+    <div class="banner">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-4" style="padding-top:75px;">
+
+                    <div class="bod1">
+                        
+                        <div class='hexagon'>
+                          <ul class="menuMod">
+                            <li class='polygon_top'>
+                              <a href="index.html">Home</a>
+                            </li>
+                            <li class='polygon_top'></li>
+                            <li class='polygon_top'>
+                              <a href="myprofile.html">Profile</a>
+                            </li>
+                            <li class='polygon_bottom'>
+                              <a href="settings.html">Settings</a>
+                            </li>
+                            <li class='polygon_bottom'></li>
+                            <li class='polygon_bottom'>
+                              <a href="about.html">About</a>
+                            </li>
+                          </ul>
+
+                        <p>
+                            <div class="menuText">
+                            Menu
+                            </div>
+                        </p>
+
+               
+                        </div>
+                    </div>
+
+                   <!--  <div class="col-lg-3">
+                          <h2>Connect to crudList:</h2>
+                    </div> -->
+
+                </div>
+                
+                <div class="col-lg-6">
+                    <ul class="list-inline banner-social-buttons">
+                        <li>
+                            <a href="http://courses.pgbovine.net/csc210/project.htm" class="btn btn-default btn-lg"><i class="fa fa-external-link-square"></i> <span class="network-name">Project</span></a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/zchen364/CRUDList" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.banner -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                   
+                    <p class="copyright text-muted small">Copyright &copy; Alex Mai, Adam Livingston, Zhiming Chen. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+       
+
+</body>
+
+</html>
