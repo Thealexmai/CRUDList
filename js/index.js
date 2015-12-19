@@ -17,7 +17,7 @@ $(document).ready(function() {
 
 	//Check to see if there is a cookie
 	$.ajax({
-		url: "/cgi-bin/validateCookie.py",
+		url: "cgi-bin/validateCookie.py",
 		type: "GET",
 		dataType: "json",
 		success: function(data) {
@@ -57,7 +57,7 @@ $(document).ready(function() {
 		var passwordToLookup = $("#loginpassword").val();
 		// console.log(emailToLookup);
 		$.ajax({
-			url : "/cgi-bin/login.py",
+			url : "cgi-bin/login.py",
 			data : {
 				loginemail : emailToLookup,
 				loginpassword : passwordToLookup
@@ -115,7 +115,7 @@ $(document).ready(function() {
 	function displayInterested() {
 		//Nested ajax calls the displayinterested
 		$.ajax({
-			url: "/cgi-bin/displayinterested.py",
+			url: "cgi-bin/displayinterested.py",
 			type: "POST",
 			dataType: "json",
 			success: function(data) {
@@ -220,7 +220,7 @@ $(document).ready(function() {
 
 	function forPopulate(data, divID) {
 		for(i=0; i<data.length; i++) {
-			$(divID).append('<div class="col-md-4"><div class="col-xs-6"><img src="'+data[i][4]+'" alt="profile img here" class="img-circle" style="height:150px;width:150px;"></div><div class="col-xs-6"><h3>'+data[i][0] + ' ' + data[i][1] +'</h3><h4>' + data[i][3]+ '</h4><form method="get" action="/cgi-bin/readprofiles.py"><button type="submit" class="btn btn-primary btn-xs" name="viewuser" id="' + i + '" value="' + data[i][2] + '">View Profile</button></form></div></div>');
+			$(divID).append('<div class="col-md-4"><div class="col-xs-6"><img src="'+data[i][4]+'" alt="profile img here" class="img-circle" style="height:150px;width:150px;"></div><div class="col-xs-6"><h3>'+data[i][0] + ' ' + data[i][1] +'</h3><h4>' + data[i][3]+ '</h4><form method="get" action="cgi-bin/readprofiles.py"><button type="submit" class="btn btn-primary btn-xs" name="viewuser" id="' + i + '" value="' + data[i][2] + '">View Profile</button></form></div></div>');
 		}
 	}
 

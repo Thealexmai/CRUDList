@@ -26,6 +26,11 @@ def convertBuyer(theint):
 		theint = "Seller"
 	return theint
 
+def lowerEmail(html):
+	return html.lower()
+
+my_emails = lowerEmail(my_emails)
+
 print "Content-Type: text/html"
 print
 

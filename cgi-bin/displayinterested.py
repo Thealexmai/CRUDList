@@ -9,7 +9,6 @@ form = cgi.FieldStorage()
 import Cookie
 import os
 import json
-# from django.utils import simplejson
 
 stored_cookie_string = os.environ.get('HTTP_COOKIE')
 cookie = Cookie.SimpleCookie(stored_cookie_string)

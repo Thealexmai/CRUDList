@@ -2,12 +2,12 @@
 <html lang="en">
 
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>CRUDList</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="">
-	<meta name="author" content="">
+	<meta name="description" content="display all that are intersted">
+	<meta name="author" content="alex mai">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 	<script src="js/bootstrap.js"></script>
@@ -16,7 +16,6 @@
 		src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<link rel="stylesheet"
 		href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
 
 	<!-- Custom CSS -->
 	<link href="css/landing-page.css" rel="stylesheet">
@@ -29,11 +28,9 @@
 </head>
 
 <body>
-
 	<!-- Navigation -->
-	<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+	<nav class="navbar navbar-default topnav" role="navigation">
 		<div class="container topnav">
-			
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span>
@@ -41,16 +38,15 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand topnav" href="index.html"><img src="/attachments/logo.jpg" style="max-height: 65px; max-width: 100px;"></a>
+				<a class="navbar-brand topnav" href="index.html"><img src="attachments/logo.jpg" style="max-height: 65px; max-width: 100px;"></a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<div id="logout">
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="myprofile.html"><img class = "navbarphoto" src="" style="height:20px;width:20px"> My Profile</a></li>
+						<li><a href="myprofile.html"><img class="navbarphoto" src="" style="height:20px;width:20px"> My Profile</a></li>
 						<li><a id="settingsbutton" href="settings.html"><span class="glyphicon glyphicon-lock"></span> Settings</a></li>
 						<li><a id="logoutbutton" href="index.html"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
-						
 					</ul>
 				 </div>
 			</div>
@@ -64,7 +60,6 @@
 	<a name="about"></a>
 	<div class="intro-header">
 		<div class="container">
-
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="intro-message">
@@ -153,26 +148,27 @@
 
 								<div class="form-group col-xs-12">
 									<label for="location">Location: </label>
-									  <select class="form-control" name="location" required>
-										<option>Riverview</option>
-										<option>Residence Quad</option>
-										<option>Susan B. Anthony Halls</option>
-										<option>Phase</option>
-										<option>Southside</option>
-										<option>Off-Campus</option>
-										<option>Brooks Landing</option>
-									  </select>
+									<select class="form-control" name="location" required>
+										<option value="Residence Quad">Residence Quad</option>
+										<option value="Fraternity Quad">Fraternity Quad</option>
+										<option value="Sue B">Susan B. Anthony Halls</option>
+										<option value="Towers">Towers</option>
+										<option value="Southside">Southside</option>
+										<option value="Phase">Phase</option>
+										<option value="Riverview">Riverview</option>
+										<option value="Brooks Crossing">Brooks Crossing</option>
+									</select>
 								</div>
 
 								<div class = "form-group col-xs-12">
 									<label for = "picture">Select Profile Picture: </label>
 								
 									<select class="form-control" name="picture" required>
-										<option value="/attachments/hat.jpg">Hat</option>
-										<option value="/attachments/car.jpg">Car</option>
-										<option value="/attachments/iron.jpg">Iron</option>
-										<option value="/attachments/ship.jpg">Ship</option>
-										<option value="/attachments/shoe.jpg">Shoe</option>
+										<option value="attachments/hat.jpg">Hat</option>
+										<option value="attachments/car.jpg">Car</option>
+										<option value="attachments/iron.jpg">Iron</option>
+										<option value="attachments/ship.jpg">Ship</option>
+										<option value="attachments/shoe.jpg">Shoe</option>
 									</select>
 								</div>
 
@@ -249,7 +245,6 @@
 
 	</div>
 	
-
 	<a  name="contact"></a>
 	<div class="banner">
 		<div class="container">
@@ -289,10 +284,10 @@
 							<a href="http://courses.pgbovine.net/csc210/project.htm" class="btn btn-default btn-lg"><i class="fa fa-external-link-square"></i> <span class="network-name">Project</span></a>
 						</li>
 						<li>
-							<a href="https://github.com/zchen364/CRUDList" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+							<a href="https://github.com/Thealexmai/CRUDList" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
 						</li>
 						<li>
-							<a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
+							<a href="https://www.linkedin.com/in/thealexmai" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
 						</li>
 					</ul>
 				</div>
@@ -307,7 +302,6 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					
 					<p class="copyright text-muted small">Copyright &copy; Alex Mai, Adam Livingston, Zhiming Chen. All Rights Reserved</p>
 				</div>
 			</div>

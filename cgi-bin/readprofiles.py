@@ -67,22 +67,27 @@ print '''<!doctype html>
 			<link rel="stylesheet"
 				href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 				
-			<title>''' + data['firstname'] + ' ' + data['lastname'] +'''</title>
+			<title>CRUDList - ''' + data['firstname'] + ' ' + data['lastname'] +'''</title>
+
+			<script src="http://maps.googleapis.com/maps/api/js"></script>
 
 			<script type="text/javascript">
 				$(document).ready(function() {
 					$("#logout").hide();
+					$(".fb-comments").hide();
+
 					$.ajax({
-						url: "/cgi-bin/validateCookie.py",
+						url: "validateCookie.py",
 						type: "GET",
 						dataType: "json",
 						success: function(data) {
 							console.log(data);
 							if(data.hasCookie==true && data.match==true) {
 								$("#logout").show();
-								
 								$(".navbarphoto").attr("src", "../"+data['picture']);
+								$(".fb-comments").show();
 							}
+							setLocation(data);
 						},
 						error: function() {
 							console.log("Error, something happened with cookie validation");
@@ -97,73 +102,62 @@ print '''<!doctype html>
 					function deleteCookie() {
 						document.cookie = "email=" + null + ";" + "path=/;";
 					}
+
+					function setLocation(data) {
+						var latitude = 0;
+						var longtitude = 0;
+
+						if ("'''+data['location'] + '''" == "Southside") {
+							latitude = 43.117876
+							longtitude = -77.631271
+						}
+						else if ("'''+data['location'] + '''" == "Fraternity Quad") {
+							latitude = 43.129009
+							longtitude = -77.632299
+						}
+						else if ("'''+data['location'] + '''" == "Residence Quad") {
+							latitude = 43.130106
+							longtitude = -77.631656
+						}
+						else if ("'''+data['location'] + '''" == "Susan B. Anthony Halls") {
+							latitude = 43.129948
+							longtitude = -77.626525
+						}
+						else if ("'''+data['location'] + '''" == "Towers") {
+							latitude = 43.131756
+							longtitude = -77.625508
+						}
+						else if ("'''+data['location'] + '''" == "Phase") {
+							latitude = 43.130918
+							longtitude = -77.622949
+						}
+						else if ("'''+data['location'] + '''" == "Riverview") {
+							latitude = 43.133449
+							longtitude = -77.630103
+						}
+						else {
+							latitude = 43.131920;
+							longtitude = -77.633961;
+						}
+						console.log("Location at: " + data.location);
+						var mycenter = new google.maps.LatLng(latitude, longtitude);
+						var mapProp = {
+							center:mycenter,
+							zoom:16,
+							mapTypeId:google.maps.MapTypeId.ROADMAP
+						};
+						var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+						var marker=new google.maps.Marker({
+							position: mycenter,
+							animation:google.maps.Animation.BOUNCE
+						});
+						marker.setMap(map);
+						google.maps.event.addDomListener(window, 'load');
+					} //End of set location
+
 				}); //End of document ready
 			</script>
-
-				<!-- MAP STUFF -->
-	<script src="http://maps.googleapis.com/maps/api/js"></script>
-	<script>
-	$.ajax({
-		url: "/cgi-bin/validateCookie.py",
-		type: "GET",
-		dataType: "json",
-		success: function () {
-			var latitude = 0
-			var longtitude = 0
-
-			if ("'''+data['location'] + '''" == "Southside") {
-				latitude = 43.117876
-				longtitude = -77.631271
-			}
-			else if ("'''+data['location'] + '''" == "Fraternity Quad") {
-				latitude = 43.129009
-				longtitude = -77.632299
-			}
-			else if ("'''+data['location'] + '''" == "Residence Quad") {
-				latitude = 43.130106
-				longtitude = -77.631656
-			}
-			else if ("'''+data['location'] + '''" == "Sue B") {
-				latitude = 43.129948
-				longtitude = -77.626525
-			}
-			else if ("'''+data['location'] + '''" == "Towers") {
-				latitude = 43.131756
-				longtitude = -77.625508
-			}
-			else if ("'''+data['location'] + '''" == "Phase") {
-				latitude = 43.130918
-				longtitude = -77.622949
-			}
-			else if ("'''+data['location'] + '''" == "Riverview") {
-				latitude = 43.133449
-				longtitude = -77.630103
-			}
-			else {
-				latitude = 43.131920
-				longtitude = -77.633961
-			}
-			
-			var mycenter = new google.maps.LatLng(latitude, longtitude)
-			var mapProp = {
-				center:mycenter,
-				zoom:16,
-				mapTypeId:google.maps.MapTypeId.ROADMAP
-			};
-			var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-			var marker=new google.maps.Marker({
-				position: mycenter,
-				animation:google.maps.Animation.BOUNCE
-			});
-			marker.setMap(map);
-			google.maps.event.addDomListener(window, 'load')
-		},
-		error: function() {
-			console.log("Error, something happened with cookie validation");
-		},
-	}); //End of ajax call
-	</script>
-		</head>
+</head>
 
 		<body>
 			<div id="fb-root"></div>
@@ -180,7 +174,7 @@ print '''<!doctype html>
 			});
 			</script>
 			<!-- Nav bar -->
-			<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+			<nav class="navbar navbar-default topnav" role="navigation">
 			<div class="container topnav">
 			
 			<div class="navbar-header">
@@ -190,15 +184,15 @@ print '''<!doctype html>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand topnav" href="/index.html"><img src="/attachments/logo.jpg" style="max-height: 65px; max-width: 100px;"></a>
+				<a class="navbar-brand topnav" href="../index.html"><img src="../attachments/logo.jpg" style="max-height: 65px; max-width: 100px;"></a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<div id="logout">
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="/myprofile.html"><img class="navbarphoto" style="height:20px;width:20px"> My Profile</a></li>
-						<li><a id="settingsbutton" href="/settings.html"><span class="glyphicon glyphicon-lock"></span> Settings</a></li>
-						<li><a id="logoutbutton" href="/index.html"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
+						<li><a href="../myprofile.html"><img class="navbarphoto" style="height:20px;width:20px"> My Profile</a></li>
+						<li><a id="settingsbutton" href="../settings.html"><span class="glyphicon glyphicon-lock"></span> Settings</a></li>
+						<li><a id="logoutbutton" href="../index.html"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
 						
 					</ul>
 				 </div>
@@ -224,11 +218,12 @@ print '''<!doctype html>
 							</div>
 							<div class="col-md-6">
 								<!-- Empty header for service listing -->
-								<h3 id="service">Service: ''' + data['service'] + ''' </h3>
+								<h3 id="service">Service: <small>''' + data['service'] + '''</small></h3>
 								<!-- Empty paragraph for description -->
-								<h3 id="about">About: ''' + data['description'] + '''</h3>
+								<h3 id="about">About: <small>''' + data['description'] + '''</small></h3>
 								<!-- Empty paragraph for location -->
-								<h3 id="locatioin">Located in: ''' + data['location'] + '''</h3>
+								<h3 id="locatioin">Located in: <small>''' + data['location'] + '''</small></h3>
+								<h3>Email: <small><a href="mailto:''' + user_email + '''">''' + user_email + '''</a></small></h3>
 							</div>
 						</div>
 					</div>
@@ -240,11 +235,9 @@ print '''<!doctype html>
 
 					<div id="googleMap" style="width:500px;height:380px; margin-left:auto; margin-right:auto"></div>
 					<!-- Facebook comment -->
-					<div class="fb-comments" data-href="localhost/www/cgi-bin/readprofiles.py?viewuser=''' + user_email + '''" data-width="100%" data-numposts="5"></div>
+					<div class="fb-comments" data-href="http://alexpmai.com/crudlist/cgi-bin/readprofiles.py?viewuser=''' + user_email + '''" data-width="100%" data-numposts="5"></div>
 				</div> <!-- End of container fluid -->
 			</div>
-
-
 
 	<a  name="contact"></a>
 	<div class="banner">
@@ -252,7 +245,6 @@ print '''<!doctype html>
 			<div class="row">
 				<div class="col-lg-4" style="padding-top:75px;">
 					<div class="bod1">
-						
 						<div class='hexagon'>
 						  <ul class="menuMod">
 							<li class='polygon_top'>
@@ -279,7 +271,6 @@ print '''<!doctype html>
 
 						</div>
 					</div>
-
 				</div>
 				
 				<div class="col-lg-6">
@@ -288,23 +279,17 @@ print '''<!doctype html>
 							<a href="http://courses.pgbovine.net/csc210/project.htm" class="btn btn-default btn-lg"><i class="fa fa-external-link-square"></i> <span class="network-name">Project</span></a>
 						</li>
 						<li>
-							<a href="https://github.com/zchen364/CRUDList" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+							<a href="https://github.com/Thealexmai/CRUDList" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
 						</li>
 						<li>
-							<a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
+							<a href="https://www.linkedin.com/in/thealexmai" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
 						</li>
 					</ul>
 				</div>
-
 			</div>
-
-
-
 		</div>
 		<!-- /.container -->
-
-	</div>
-	<!-- /.banner -->
+	</div> <!-- /.banner -->
 
 	<!-- Footer -->
 	<footer>
@@ -317,9 +302,6 @@ print '''<!doctype html>
 			</div>
 		</div>
 	</footer>
-
-
-
 
 </body>
 	</html>'''

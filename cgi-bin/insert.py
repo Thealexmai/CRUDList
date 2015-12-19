@@ -31,9 +31,13 @@ def stripTagsfromDescription(html):
 	trantable = maketrans(carrots, brackets)
 	return html.translate(trantable)
 
+def lowerEmail(html):
+	return html.lower()
+
 my_firstname = stripTags(my_firstname)
 my_lastname = stripTags(my_lastname)
 my_description = stripTagsfromDescription(my_description)
+my_email = lowerEmail(my_email)
 
 # Help from https://dev.mysql.com/doc/connector-python/en/connector-python-api-mysqlcursor-fetchall.html
 c.execute('select * from users where email=?;', [my_email])
@@ -78,12 +82,11 @@ if len(results)>0:
 		</html>'''
 else:
 
-	c.execute('insert into users values (?, ?, ?, ?, ?, ?, ?, ?, ?)', (my_email, my_firstname, my_lastname, my_password, my_services, my_description, my_buyer, my_picture, my_location))
-	conn.commit()
-
 	print "Content-Type: text/html"
 	print 
-
+	
+	c.execute('insert into users values (?, ?, ?, ?, ?, ?, ?, ?, ?)', (my_email, my_firstname, my_lastname, my_password, my_services, my_description, my_buyer, my_picture, my_location))
+	conn.commit()
 	print '''
 			<!doctype html>
 			<html>
