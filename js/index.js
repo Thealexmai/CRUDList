@@ -49,8 +49,6 @@ $(document).ready(function() {
 		},
 	});
 
-	
-
 	// Log in button
 	$("#loginsubmit").click(function() {
 		var emailToLookup = $("#loginemail").val();
@@ -97,9 +95,21 @@ $(document).ready(function() {
 		deleteCookie();
 		window.location.replace("index.html");
 	});
-	// function stripHTML(html) {
-	// 	return $($.parseHTML(html)).text();
-	// }
+
+	//Enter button pressed for log in information
+	$("#loginemail").keypress(function(e){
+		if(e.keyCode==13)
+			$("#loginsubmit").click();
+		else
+			console.log("Enter a valid email or password please.");
+	});
+
+	$("#loginpassword").keypress(function(e) {
+		if(e.keyCode==13)
+			$("#loginsubmit").click();
+		else
+			console.log("Enter valid email or password please.");
+	});
 
 	function loadHome(){
         $("#logButt").click(function() {
@@ -220,7 +230,7 @@ $(document).ready(function() {
 
 	function forPopulate(data, divID) {
 		for(i=0; i<data.length; i++) {
-			$(divID).append('<div class="col-md-4"><div class="col-xs-6"><img src="'+data[i][4]+'" alt="profile img here" class="img-circle" style="height:150px;width:150px;"></div><div class="col-xs-6"><h3>'+data[i][0] + ' ' + data[i][1] +'</h3><h4>' + data[i][3]+ '</h4><form method="get" action="cgi-bin/readprofiles.py"><button type="submit" class="btn btn-primary btn-xs" name="viewuser" id="' + i + '" value="' + data[i][2] + '">View Profile</button></form></div></div>');
+			$(divID).append('<div class="col-md-4"><div class="col-xs-6"><img class="img-responsive" src="'+data[i][4]+'" alt="profile img here" class="img-circle" style="height:150px;width:150px;"></div><div class="col-xs-6"><h3>'+data[i][0] + ' ' + data[i][1] +'</h3><h4>' + data[i][3]+ '</h4><form method="get" action="cgi-bin/readprofiles.py"><button type="submit" class="btn btn-primary btn-xs" name="viewuser" id="' + i + '" value="' + data[i][2] + '">View Profile</button></form></div></div>');
 		}
 	}
 
